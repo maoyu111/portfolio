@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fri.AI | 品牌运营 & AI 实践者</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com" onerror="this.onerror=null;this.src='https://unpkg.com/tailwindcss@3.4.0/lib/index.js'"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fff; color: #1a1a1a; overflow-x: hidden; }
+        .mono { font-family: 'Fira Code', monospace; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 入场动画 */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body class="selection:bg-orange-100 selection:text-orange-600">
+
+    <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="text-lg font-bold tracking-tighter mono">Fri.AI</div>
+            <div class="hidden md:flex items-center space-x-4 text-[11px] font-medium text-gray-400 mono tracking-wider">
+                <a href="#intro" class="hover:text-black transition-colors">简介</a>
+                <span class="text-gray-200">|</span>
+                <a href="#skills" class="hover:text-black transition-colors">核心能力</a>
+                <span class="text-gray-200">|</span>
+                <a href="#ai-lab" class="hover:text-black transition-colors">AI Lab</a>
+                <span class="text-gray-200">|</span>
+                <a href="#contact" class="hover:text-black transition-colors">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="intro" class="pt-40 pb-20 px-6 overflow-hidden">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex gap-2 mb-8 reveal">
+                <span class="px-2 py-1 bg-gray-50 border border-gray-100 text-[10px] text-green-600 mono font-medium uppercase tracking-tight">STATUS: RECOVERING BUILDING</span>
+                <span class="px-2 py-1 bg-gray-50 border border-gray-100 text-[10px] text-orange-600 mono font-medium uppercase tracking-tight">OPEN TO WORK</span>
+            </div>
+            
+            <h1 class="font-bold mb-10 leading-none reveal" style="transition-delay: 0.1s;">
+                <span class="text-3xl md:text-7xl block mb-4 tracking-tighter text-gray-800">Hi I'm Fri,</span>
+                <span class="text-[7.5vw] md:text-[5.8vw] lg:text-[5.4vw] text-gray-400 whitespace-nowrap tracking-tighter block leading-none">
+                    品牌运营 · 策略策划 · 跨媒介内容创作者
+                </span>
+            </h1>
+
+            <p class="text-xl text-gray-500 max-w-2xl mb-12 font-light leading-relaxed reveal" style="transition-delay: 0.2s;">
+                用 <span class="text-black font-medium border-b border-orange-500">AI</span> 驱动效率，
+                用 <span class="text-black font-medium border-b border-orange-500">文案</span> 连接情绪，
+                用 <span class="text-black font-medium border-b border-orange-500">数据</span> 验证结果。
+            </p>
+
+            <div class="reveal" style="transition-delay: 0.3s;">
+                <button class="bg-black text-white px-10 py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-orange-600 transition-all">
+                    查看简历
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="py-20 px-6 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-12 mb-20 reveal">
+                <div>
+                    <h3 class="mono text-xs font-bold mb-4 uppercase tracking-widest text-orange-500">// 平台运营</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">擅长小红书全链路 0-1 增长，具备海外矩阵号搭建经验，实现低成本获客与长尾流量转化。</p>
+                </div>
+                <div>
+                    <h3 class="mono text-xs font-bold mb-4 uppercase tracking-widest text-orange-500">// 文案策划</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">深度理解品牌叙事，主导中国航天IP联名项目，将情绪价值转化为商业爆发力。</p>
+                </div>
+                <div>
+                    <h3 class="mono text-xs font-bold mb-4 uppercase tracking-widest text-orange-500">// 数据分析</h3>
+                    <p class="text-sm text-gray-500 leading-relaxed">数据驱动复盘，通过转化模型优化运营策略，具备敏锐的流量捕捉与增长实操能力。</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-50/50 border border-gray-100 rounded-[32px] p-10 md:p-16 reveal" style="transition-delay: 0.1s;">
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+                    <div><div class="text-3xl font-bold tracking-tighter mb-1">536,079+</div><div class="text-[10px] text-gray-400 mono uppercase tracking-widest">单篇最高阅读</div></div>
+                    <div><div class="text-3xl font-bold tracking-tighter mb-1">100+</div><div class="text-[10px] text-gray-400 mono uppercase tracking-widest">精准客资转化</div></div>
+                    <div><div class="text-3xl font-bold tracking-tighter mb-1">7 Days</div><div class="text-[10px] text-gray-400 mono uppercase tracking-widest">爆款反应周期</div></div>
+                    <div><div class="text-3xl font-bold tracking-tighter mb-1">300%</div><div class="text-[10px] text-gray-400 mono uppercase tracking-widest">AI工作流提效</div></div>
+                    <div><div class="text-3xl font-bold tracking-tighter mb-1">100%</div><div class="text-[10px] text-gray-400 mono uppercase tracking-widest">项目从 0-1</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="ai-lab" class="py-20 px-6 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="space-y-16">
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold mb-10 tracking-tight">AI tools i like</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="book-open" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">NotebookLM</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">个人知识库，智能分析长文档与结构化研究。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="message-square" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Chatgpt</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">全能助手，用于文案初稿生成与多维策略拆解。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="sparkles" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Gemini</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">原生多模态理解，快速处理视频与复杂表格数据。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="palette" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">即梦</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">高质量视觉创作，从小红书配图到品牌海报生成。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="code" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">CloudeCode</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">智能辅助编程，加速自动化脚本与工具原型开发。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="layers" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">N8N</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">工作流自动化核心，连接不同应用的数据孤岛。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="zap" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Coze</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">零代码搭建 AI Bot，实现垂直领域的智能客服与分析。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-100 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-10 h-10 bg-gray-50 rounded-xl mb-6 flex items-center justify-center border border-gray-100">
+                                <i data-lucide="wind" class="w-5 h-5 text-gray-400"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Lovart</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">AI 艺术美学探索，为创意内容注入独特设计感。</p>
+                            <a href="#" class="text-blue-500 text-xs font-bold flex items-center group-hover:underline">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold mb-10 tracking-tight">showcase</h3>
+                    <div class="border border-gray-100 p-10 md:p-12 hover:border-orange-500 transition-all cursor-pointer group bg-white shadow-sm rounded-[32px]">
+                        <h4 class="text-2xl font-bold mb-4 uppercase tracking-tight group-hover:text-orange-600 transition-colors">微信读书笔记一键同步 Notion</h4>
+                        <p class="text-sm text-gray-400 leading-relaxed mb-8 max-w-2xl font-light">打破知识孤岛。利用 n8n 与 API 实现笔记结构化自动存储，构建个人永久知识库。</p>
+                        <div class="flex items-center text-[10px] mono font-bold text-orange-500 uppercase">VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-20 px-6 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-[#1a1a1a] rounded-[48px] py-24 px-10 text-center text-white shadow-2xl reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 tracking-tight">
+                    Let's build the future.
+                </h2>
+                <div class="reveal" style="transition-delay: 0.1s;">
+                    <a href="mailto:xzzilndk@foxmail.com" class="text-lg md:text-2xl font-light underline underline-offset-8 decoration-1 hover:text-orange-400 transition-colors mono">
+                        xzzilndk@foxmail.com
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center text-[10px] text-gray-400 mono uppercase tracking-widest reveal" style="transition-delay: 0.2s;">
+                © 2024 Fri.AI — Built with Passion & AI
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+        
+        // 滚动入场检测
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { 
+                if (entry.isIntersecting) entry.target.classList.add('active'); 
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
