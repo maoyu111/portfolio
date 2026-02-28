@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fri.AI | 品牌运营 & AI 实践者</title>
+    <script src="https://cdn.tailwindcss.com" onerror="this.onerror=null;this.src='https://unpkg.com/tailwindcss@3.4/lib/index.js'"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --bg: #FBFBFD;
+            --card-bg: #FFFFFF;
+            --accent: #0066FF;
+            --xhs-red: #ff2442;
+            --text-main: #1D1D1F;
+            --text-sub: #6E6E73;
+            --border: #E5E5E7;
+            --radius: 28px;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); overflow-x: hidden; }
+        .mono { font-family: 'Fira Code', monospace; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* 入场动画 */
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Bento Grid 卡片样式 */
+        .bento-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 36px;
+            border: 1px solid var(--border);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-color: #d1d1d6;
+        }
+
+        .tag-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+            overflow: hidden;
+        }
+
+        .tag-label span {
+            background: #F2F2F7;
+            padding: 4px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .bento-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .bento-card .subtitle {
+            font-size: 13px;
+            color: var(--text-sub);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .bento-card .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 20px 0;
+        }
+
+        .bento-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bento-card li {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.7;
+            margin-bottom: 16px;
+            padding-left: 0;
+        }
+
+        .bento-card li strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .bento-card .view-details {
+            margin-top: auto;
+            color: #ff6b35;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding-top: 8px;
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+
+        .bento-card .view-details:hover {
+            gap: 10px;
+            color: #ff2442;
+        }
+
+        .bento-card .view-details i {
+            transition: transform 0.2s ease;
+        }
+
+        /* 数据统计卡片hover效果 */
+        .stats-card {
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            border-color: #d1d1d6;
+        }
+
+        /* 导航跳转偏移，跳过标题 */
+        section {
+            scroll-margin-top: 80px;
+        }
+
+        /* 简介板块单独设置 - 让内容居中显示 */
+        #intro {
+            scroll-margin-top: 0px;
+        }
+
+        /* 核心能力标题跳转偏移 - 让标题滚动到视口上方 */
+        #skills {
+            scroll-margin-top: 0px;
+        }
+
+        /* AIGC标题跳转偏移 */
+        #ai-lab-title {
+            scroll-margin-top: 0px;
+        }
+
+        /* Showcase Card Styles */
+        .showcase-card {
+            transition: 0.3s ease;
+            margin-bottom: 20px !important;
+        }
+
+        .showcase-card:hover {
+            border-color: #ff6b35;
+        }
+
+        .showcase-card:hover h4 {
+            color: #ff6b35;
+        }
+
+        .showcase-header {
+            padding: 28px 36px !important;
+        }
+
+        .showcase-header h4 {
+            font-size: 20px !important;
+            margin-bottom: 6px !important;
+        }
+
+        .showcase-header p {
+            font-size: 14px !important;
+        }
+
+        .showcase-toggle-icon {
+            display: inline-block;
+            color: var(--accent);
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -2px;
+            transition: transform 0.3s ease;
+        }
+
+        .showcase-card.active .showcase-toggle-icon {
+            transform: rotate(90deg);
+        }
+
+        .showcase-content {
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .showcase-content > div {
+            padding: 28px 36px !important;
+        }
+
+        .showcase-content h5 {
+            font-size: 12px !important;
+            margin-bottom: 14px !important;
+        }
+
+        .showcase-content p {
+            font-size: 14px !important;
+        }
+
+        .showcase-content .mb-8 {
+            margin-bottom: 20px !important;
+        }
+
+        .showcase-content .space-y-3 > * + * {
+            margin-top: 10px !important;
+        }
+
+        .showcase-content .grid {
+            gap: 32px !important;
+        }
+
+        .carousel-container .carousel {
+            height: 280px !important;
+        }
+
+        .carousel-slide {
+            height: 280px !important;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Carousel Styles */
+        .carousel-dot.active {
+            background: var(--accent);
+            width: 20px;
+        }
+
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* View Details Link */
+        .view-details:hover {
+            gap: 10px !important;
+            color: #ff2442 !important;
+        }
+
+        /* ========== 关键备用样式（Tailwind CDN 失败时生效） ========== */
+        /* 基础布局 */
+        .max-w-6xl { max-width: 72rem; margin-left: auto; margin-right: auto; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .px-12 { padding-left: 3rem; padding-right: 3rem; }
+        .py-14 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .pt-32 { padding-top: 8rem; }
+        .pb-16 { padding-bottom: 4rem; }
+        .pt-40 { padding-top: 10rem; }
+        .pb-20 { padding-bottom: 5rem; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .py-24 { padding-top: 6rem; padding-bottom: 6rem; }
+        .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+        .p-10 { padding: 2.5rem; }
+        .p-12 { padding: 3rem; }
+        .p-8 { padding: 2rem; }
+        .p-16 { padding: 4rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-5 { margin-bottom: 1.25rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-10 { margin-bottom: 2.5rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-16 { margin-bottom: 4rem; }
+        .mb-20 { margin-bottom: 5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mt-12 { margin-top: 3rem; }
+        .mt-24 { margin-top: 6rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .gap-10 { gap: 2.5rem; }
+        .gap-32 { gap: 8rem; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-1 { flex: 1 1 0%; }
+        .flex-shrink-0 { flex-shrink: 0; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .justify-between { justify-content: space-between; }
+        .justify-around { justify-content: space-around; }
+        .justify-center { justify-content: center; }
+        .grid { display: grid; }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        .hidden { display: none !important; }
+        .block { display: block; }
+        .inline-flex { display: inline-flex; }
+        .w-full { width: 100%; }
+        .h-16 { height: 4rem; }
+        .h-80 { height: 20rem; }
+        .min-w-full { min-width: 100%; }
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .text-5xl { font-size: 3rem; line-height: 1; }
+        .text-7xl { font-size: 4.5rem; line-height: 1; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+        .text-[10px] { font-size: 10px; }
+        .text-[11px] { font-size: 11px; }
+        .text-[13px] { font-size: 13px; }
+        .text-[36px] { font-size: 36px; line-height: 1; }
+        .font-bold { font-weight: 700; }
+        .font-medium { font-weight: 500; }
+        .font-light { font-weight: 300; }
+        .font-semibold { font-weight: 600; }
+        .uppercase { text-transform: uppercase; }
+        .tracking-tight { letter-spacing: -0.025em; }
+        .tracking-tighter { letter-spacing: -0.05em; }
+        .tracking-wide { letter-spacing: 0.025em; }
+        .leading-none { line-height: 1; }
+        .leading-relaxed { line-height: 1.625; }
+        .bg-white { background-color: #ffffff; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .bg-gray-200 { background-color: #e5e7eb; }
+        .bg-[#FBFBFD] { background-color: #FBFBFD; }
+        .bg-[#FAFBFD] { background-color: #FAFBFD; }
+        .bg-[#1a1a1a] { background-color: #1a1a1a; }
+        .bg-black { background-color: #000000; }
+        .bg-green-50 { background-color: #f0fdf4; }
+        .bg-orange-100 { background-color: #fed7aa; }
+        .bg-blue-500 { background-color: #3b82f6; }
+        .text-white { color: #ffffff; }
+        .text-black { color: #000000; }
+        .text-gray-200 { color: #e5e7eb; }
+        .text-gray-300 { color: #d1d5db; }
+        .text-gray-400 { color: #9ca3af; }
+        .text-gray-500 { color: #6b7280; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-800 { color: #1f2937; }
+        .text-green-600 { color: #16a34a; }
+        .text-orange-400 { color: #fb923c; }
+        .text-orange-600 { color: #ea580c; }
+        .border { border-width: 1px; }
+        .border-b { border-bottom-width: 1px; }
+        .border-t { border-top-width: 1px; }
+        .border-gray-100 { border-color: #f3f4f6; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .border-orange-500 { border-color: #f97316; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-[32px] { border-radius: 32px; }
+        .rounded-[48px] { border-radius: 48px; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-3xl { border-radius: 1.5rem; }
+        .rounded-full { border-radius: 9999px; }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .shadow-2xl { box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25); }
+        .shadow-xl { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        .fixed { position: fixed; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .top-0 { top: 0; }
+        .left-4 { left: 1rem; }
+        .right-4 { right: 1rem; }
+        .left-1\/2 { left: 50%; }
+        .top-1\/2 { top: 50%; }
+        .transform { transform: translate(var(--tw-translate-x), var(--tw-translate-y)); }
+        .-translate-x-1\/2 { --tw-translate-x: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)); }
+        .-translate-y-1\/2 { --tw-translate-y: -50%; transform: translate(var(--tw-translate-x), var(--tw-translate-y)); }
+        .translate-x-1 { --tw-translate-x: 0.25rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)); }
+        .transition-all { transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .transition-transform { transition-property: transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .duration-200 { transition-duration: 200ms; }
+        .duration-500 { transition-duration: 500ms; }
+        .z-50 { z-index: 50; }
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .space-y-12 > * + * { margin-top: 3rem; }
+        .space-y-16 > * + * { margin-top: 4rem; }
+        .space-y-8 > * + * { margin-top: 2rem; }
+        .backdrop-blur-md { backdrop-filter: blur(12px); }
+        .backdrop-blur-sm { backdrop-filter: blur(4px); }
+        .whitespace-nowrap { white-space: nowrap; }
+        .overflow-hidden { overflow: hidden; }
+        .no-underline { text-decoration: none; }
+        .cursor-pointer { cursor: pointer; }
+        .underline { text-decoration: underline; }
+        .underline-offset-8 { text-underline-offset: 8px; }
+        .decoration-1 { text-decoration-thickness: 1px; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .group-hover\:underline:hover { text-decoration: underline; }
+        .group-hover\:translate-x-1:hover { --tw-translate-x: 0.25rem; transform: translate(var(--tw-translate-x), var(--tw-translate-y)); }
+        .group-hover\:text-orange-600:hover { color: #ea580c; }
+        .hover\:text-orange-600:hover { color: #ea580c; }
+        .hover\:bg-orange-600:hover { background-color: #ea580c; }
+        .hover\:bg-white:hover { background-color: #ffffff; }
+        .hover\:text-black:hover { color: #000000; }
+        .hover\:shadow-xl:hover { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1); }
+        .hover\:border-orange-500:hover { border-color: #f97316; }
+        .hover\:text-orange-400:hover { color: #fb923c; }
+        .md\:text-7xl { font-size: 4.5rem; line-height: 1; }
+        .md\:text-5xl { font-size: 3rem; line-height: 1; }
+        .md\:text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .md\:text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .md\:text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .md\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .md\:p-12 { padding: 3rem; }
+        .md\:p-16 { padding: 4rem; }
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .md\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+        .md\:flex { display: flex; }
+        .md\:block { display: block; }
+        .md\:hidden { display: none; }
+        .lg\:text-[5.4vw] { font-size: 5.4vw; }
+        .selection\:bg-orange-100::selection { background-color: #fed7aa; }
+        .selection\:text-orange-600::selection { color: #ea580c; }
+    </style>
+</head>
+<body class="selection:bg-orange-100 selection:text-orange-600">
+
+    <nav class="fixed top-0 w-full z-50 bg-[#FBFBFD]/80 backdrop-blur-md border-b border-gray-200">
+        <div class="max-w-5xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="text-lg font-bold tracking-tighter mono">Fri.AI</div>
+            <div class="flex items-center gap-4 text-[13px] font-medium text-gray-600 mono tracking-wider">
+                <a href="#intro" class="hover:text-[#0066FF] transition-colors">简介</a>
+                <span class="text-gray-200">|</span>
+                <a href="#skills" class="hover:text-[#0066FF] transition-colors">核心能力</a>
+                <span class="text-gray-200">|</span>
+                <a href="#ai-lab-title" class="hover:text-[#0066FF] transition-colors">AIGC</a>
+                <span class="text-gray-200">|</span>
+                <a href="#contact" class="hover:text-[#0066FF] transition-colors">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="intro" class="min-h-screen px-6 overflow-hidden" style="padding-top: 180px; padding-bottom: 40px;">
+        <div class="max-w-6xl mx-auto">
+            <span class="tag-label reveal" style="color: #FF5C00; display: block; margin-bottom: 12px; font-weight: 700;">● Status: Learning • Building • Open to Work</span>
+
+            <h1 class="font-bold mb-10 leading-none reveal" style="transition-delay: 0.1s;">
+                <span class="text-3xl md:text-7xl block mb-4 tracking-tighter text-gray-800">Hi I'm Fri,</span>
+                <span class="text-[7.5vw] md:text-[5.8vw] lg:text-[5.4vw] text-gray-400 whitespace-nowrap tracking-tighter block leading-none">
+                    品牌运营 · 策略策划 · 跨媒介内容创作者
+                </span>
+            </h1>
+
+            <p class="text-xl text-gray-500 max-w-2xl mb-12 font-light leading-relaxed reveal" style="transition-delay: 0.2s;">
+                用 <span class="text-black font-medium border-b border-orange-500">AI</span> 驱动效率，
+                用 <span class="text-black font-medium border-b border-orange-500">文案</span> 连接情绪，
+                用 <span class="text-black font-medium border-b border-orange-500">数据</span> 验证结果。
+            </p>
+
+            <div class="reveal" style="transition-delay: 0.3s;">
+                <button class="bg-black text-white px-10 py-3 text-[11px] font-bold uppercase tracking-[0.2em] hover:bg-orange-600 transition-all">
+                    查看简历
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-10 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 id="skills" class="text-3xl md:text-4xl font-bold mb-12 tracking-tight reveal scroll-offset">核心能力</h2>
+
+            <!-- Bento Grid 布局 -->
+            <div class="grid md:grid-cols-3 gap-6 reveal">
+                <!-- 卡片 1: 策略输出 -->
+                <div class="bento-card">
+                    <h3>策略输出</h3>
+                    <div class="subtitle">擅长品牌IP化叙事与全链路营销转化</div>
+                    <div class="tag-label">
+                        <span>短视频脚本</span>
+                        <span>账号规划</span>
+                        <span>品牌手册</span>
+                        <span>产品方案</span>
+                    </div>
+                    <div class="divider"></div>
+                    <ul>
+                        <li>
+                            <strong>多维度方案撰写：</strong>具备一定审美与逻辑框架能力。能独立或与设计师配合，产出包含竞品分析、账号规划、品牌手册（VI/Slogan）等在内的实用方案。通过精准的数据对比与痛点挖掘，输出具有高说服力的方案建议。
+                        </li>
+                        <li>
+                            <strong>跨媒介创意表达：</strong>具备短视频脚本创作与分镜设计能力，有将品牌卖点转化为高互动的视觉语言的能力。
+                        </li>
+                    </ul>
+                    <a href="#strategy-details" class="view-details">
+                        查看详情 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- 卡片 2: 账号操盘 -->
+                <div class="bento-card">
+                    <h3>账号操盘</h3>
+                    <div class="subtitle">擅长 0-1 账号孵化与商业化闭环</div>
+                    <div class="tag-label">
+                        <span>微信公众号</span>
+                        <span>小红书</span>
+                        <span>摩点</span>
+                        <span>KOL投放</span>
+                    </div>
+                    <div class="divider"></div>
+                    <ul>
+                        <li>
+                            <strong>小红书 & 公众号深度运营：</strong>具备从0到1快速冷启动能力。曾主导多个小红书账号孵化，实现季度品牌搜索量提升 <strong>53%</strong>，爆文率超 <strong>60%</strong>，并曾创造首月 <strong>35%</strong> 的高转化率记录。
+                        </li>
+                        <li>
+                            <strong>KOL/KOC 资源整合与投放：</strong>精通"筛选-Brief-投放-ROI分析"全链路合作。曾筛选并管理 <strong>50+</strong> 中腰部达人，配合聚光投放，有效实现品牌全网曝光量破百万。
+                        </li>
+                    </ul>
+                    <a href="#account-details" class="view-details">
+                        查看详情 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- 卡片 3: 数据分析 -->
+                <div class="bento-card">
+                    <h3>数据分析</h3>
+                    <div class="subtitle">全链路ROI追踪与链路优化</div>
+                    <div class="tag-label">
+                        <span>Excel</span>
+                        <span>Python</span>
+                        <span>飞书多维表格</span>
+                    </div>
+                    <div class="divider"></div>
+                    <ul>
+                        <li>
+                            <strong>全维数据监控与复盘：</strong>擅长建立前端流量到后端转化的完整数据闭环。通过数据归因分析，精准定位数据波动的底层逻辑。
+                        </li>
+                        <li>
+                            <strong>关注AI赋能：</strong>具备探索学习前沿技术的意识与能力，比如通过Agent自动化来实时抓取全平台互动数据，实现从手动录入到自动分析的效率跨越。
+                        </li>
+                    </ul>
+                    <a href="#data-details" class="view-details">
+                        查看详情 <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 数据统计卡片（保持原版） -->
+            <div class="stats-card bg-white border border-gray-200 rounded-[32px] p-10 md:p-16 mt-8 reveal" style="transition-delay: 0.1s;">
+                <div class="flex items-start justify-around">
+                    <div class="stat-item text-left px-4">
+                        <h4 class="text-[36px] font-bold leading-none mb-2" style="color: var(--accent);">536,079+</h4>
+                        <p class="text-[11px] font-semibold m-0" style="color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em;">单篇笔记最高阅读量</p>
+                    </div>
+                    <div class="stat-item text-left px-4">
+                        <h4 class="text-[36px] font-bold leading-none mb-2" style="color: var(--accent);">100+</h4>
+                        <p class="text-[11px] font-semibold m-0" style="color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em;">账号冷启动获取的精准客</p>
+                    </div>
+                    <div class="stat-item text-left px-4">
+                        <h4 class="text-[36px] font-bold leading-none mb-2" style="color: var(--accent);">7 Days</h4>
+                        <p class="text-[11px] font-semibold m-0" style="color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em;">爆款内容的快速反应与增长周期</p>
+                    </div>
+                    <div class="stat-item text-left px-4">
+                        <h4 class="text-[36px] font-bold leading-none mb-2" style="color: var(--accent);">100%</h4>
+                        <p class="text-[11px] font-semibold m-0" style="color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em;">项目从0-1冷启动</p>
+                    </div>
+                    <div class="stat-item text-left px-4">
+                        <h4 class="text-[36px] font-bold leading-none mb-2" style="color: var(--accent);">300%</h4>
+                        <p class="text-[11px] font-semibold m-0" style="color: var(--text-sub); text-transform: uppercase; letter-spacing: 0.05em;">AI工作流提效</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-10 px-6">
+        <div class="max-w-6xl mx-auto">
+            <h2 id="ai-lab-title" class="text-3xl md:text-4xl font-bold mb-12 tracking-tight reveal">Tools & Creations</h2>
+            <div id="ai-lab" class="space-y-10">
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold mb-10 tracking-tight">AI tools i like</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/notebooklm.png" alt="NotebookLM" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">NotebookLM</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">个人知识库，智能分析长文档与结构化研究。</p>
+                            <a href="https://notebooklm.google.com/" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/chatgpt.png" alt="ChatGPT" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">ChatGPT</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">全能助手，用于文案初稿生成与多维策略拆解。</p>
+                            <a href="https://chatgpt.com/" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/gemini-hero.png" alt="Gemini" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Gemini</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">原生多模态理解，快速处理视频与复杂表格数据。</p>
+                            <a href="https://aistudio.google.com/" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/即梦.png" alt="即梦" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">即梦</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">高质量视觉创作，从小红书配图到品牌海报生成。</p>
+                            <a href="https://jimeng.jianying.com/ai-tool/" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/claude .png" alt="ClaudeCode" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">ClaudeCode</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">智能辅助编程，加速自动化脚本与工具原型开发。</p>
+                            <a href="https://claude.ai/code" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/n8n.png" alt="N8N" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">N8N</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">工作流自动化核心，连接不同应用的数据孤岛。</p>
+                            <a href="https://community.n8n.io/latest" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/podwise.jpg" alt="Podwise" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Podwise</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">AI 驱动的播客笔记工具，智能提取内容要点与知识管理。</p>
+                            <a href="https://apps.apple.com/us/app/podwise-podcasts-notes-ai/id6499190232" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                        <div class="bg-white border border-gray-200 rounded-[32px] p-8 hover:shadow-xl hover:shadow-gray-100 transition-all group">
+                            <div class="w-12 h-12 bg-white rounded-xl mb-6 flex items-center justify-center">
+                                <img src="logo images/lovart.png" alt="Lovart" class="w-full h-full object-contain">
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Lovart</h4>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-6 font-light line-clamp-2">AI 艺术美学探索，为创意内容注入独特设计感。</p>
+                            <a href="https://www.lovart.ai/zh" target="_blank" class="text-xs font-bold flex items-center group-hover:underline" style="color: var(--accent);">View usage <i data-lucide="arrow-right" class="ml-1 w-3 h-3"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <h3 class="text-2xl font-bold mb-10 tracking-tight">Showcase</h3>
+
+                    <!-- Showcase Card 1: 微信读书笔记一键同步 Notion -->
+                    <div class="showcase-card bg-white border border-gray-200 rounded-[32px] overflow-hidden shadow-sm mb-6">
+                        <!-- Card Header (Always Visible) -->
+                        <div class="showcase-header p-10 md:p-12 cursor-pointer transition-all">
+                            <div class="flex justify-between items-center">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="text-2xl font-bold tracking-tight hover:text-orange-600 transition-colors m-0">微信读书笔记一键同步 Notion</h4>
+                                        <span class="tag-label-single" style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; background: #F2F2F7; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">Vibecoding</span>
+                                    </div>
+                                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl font-light">打破知识孤岛，使用 API 实现笔记结构化自动存储，构建个人永久知识库</p>
+                                </div>
+                                <div class="showcase-toggle flex-shrink-0 ml-4">
+                                    <span class="showcase-toggle-icon">+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expandable Content -->
+                        <div class="showcase-content hidden">
+                            <div class="border-t border-gray-200 bg-[#FAFBFD] p-10 md:p-12">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <!-- Left Side: Pain Points & MVP Features -->
+                                    <div class="flex flex-col justify-center order-1">
+                                        <!-- Pain Points -->
+                                        <div class="mb-8">
+                                            <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-5 flex items-center gap-2">
+                                                <i data-lucide="alert-circle" class="w-4 h-4 text-blue-500"></i>
+                                                痛点场景
+                                            </h5>
+                                            <div class="space-y-3">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">微信读书笔记只能在 App 内查看，形成"知识孤岛"</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">手动复制粘贴效率极低，容易"中断阅读流"</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">缺乏统一的知识管理平台，"难以二次回顾"</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- MVP Features -->
+                                        <div class="mb-8">
+                                            <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-5 flex items-center gap-2">
+                                                <i data-lucide="rocket" class="w-4 h-4 text-blue-500"></i>
+                                                MVP 功能
+                                            </h5>
+                                            <div class="space-y-3">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">基于 Next.js 的 Web 应用</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">一键同步笔记到指定 Notion 页面</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">笔记结构化展示（书名、章节、划线内容）</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- View Project Link -->
+                                        <div class="group">
+                                            <a href="https://0838cfc68c494d5694d08acced2b70fc.prod.enter.pro/" target="_blank" class="inline-flex items-center mono font-bold uppercase" style="color: #ff6b35; font-size: 10px; letter-spacing: 0.05em; gap: 8px;">
+                                                VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Carousel - Right Side -->
+                                    <div class="carousel-container order-2">
+                                        <div class="carousel relative rounded-2xl overflow-hidden bg-gray-100">
+                                            <div class="carousel-slides flex transition-transform duration-500">
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/微信1.PNG" alt="微信读书截图1" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/微信2.PNG" alt="微信读书截图2" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/微信3.PNG" alt="微信读书截图3" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/微信4.PNG" alt="微信读书截图4" class="w-full h-full object-contain">
+                                                </div>
+                                            </div>
+                                            <!-- Carousel Controls -->
+                                            <div class="carousel-nav absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="0"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="1"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="2"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="3"></button>
+                                            </div>
+                                            <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all">
+                                                <i data-lucide="chevron-left" class="w-5 h-5 text-gray-600"></i>
+                                            </button>
+                                            <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all">
+                                                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-600"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Showcase Card 2: 英/法语精读精听练习 Web -->
+                    <div class="showcase-card bg-white border border-gray-200 rounded-[32px] overflow-hidden shadow-sm mb-6">
+                        <!-- Card Header (Always Visible) -->
+                        <div class="showcase-header p-10 md:p-12 cursor-pointer transition-all">
+                            <div class="flex justify-between items-center">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="text-2xl font-bold tracking-tight hover:text-orange-600 transition-colors m-0">英/法语精读精听练习 Web</h4>
+                                        <span class="tag-label-single" style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; background: #F2F2F7; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">Vibecoding</span>
+                                    </div>
+                                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl font-light">基于 Vue/React 等前端技术栈，使用 ClaudeCode 开发的多语言学习网站</p>
+                                </div>
+                                <div class="showcase-toggle flex-shrink-0 ml-4">
+                                    <span class="showcase-toggle-icon">+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expandable Content -->
+                        <div class="showcase-content hidden">
+                            <div class="border-t border-gray-200 bg-[#FAFBFD] p-10 md:p-12">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <!-- Left Side: Pain Points & MVP Features -->
+                                    <div class="flex flex-col justify-center order-1">
+                                        <!-- Pain Points -->
+                                        <div class="mb-8">
+                                            <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-5 flex items-center gap-2">
+                                                <i data-lucide="alert-circle" class="w-4 h-4 text-blue-500"></i>
+                                                痛点场景
+                                            </h5>
+                                            <div class="space-y-3">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">传统精听训练难以坚持</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">在视频/音频和文本间反复切换，操作繁琐</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">缺乏聚合学习笔记、体系化回顾的环境</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- MVP Features -->
+                                        <div class="mb-8">
+                                            <h5 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-5 flex items-center gap-2">
+                                                <i data-lucide="rocket" class="w-4 h-4 text-blue-500"></i>
+                                                MVP 功能
+                                            </h5>
+                                            <div class="space-y-3">
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">音视频播放与文本无缝对齐</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">文本与音频时间轴同步演示</p>
+                                                </div>
+                                                <div class="flex items-start gap-3">
+                                                    <div class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 flex-shrink-0"></div>
+                                                    <p class="text-sm text-gray-600 leading-relaxed">简洁、专注的学习界面 UI</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- View Project Link -->
+                                        <div class="group">
+                                            <a href="https://github.com/maoyu111/language" target="_blank" class="inline-flex items-center mono font-bold uppercase" style="color: #ff6b35; font-size: 10px; letter-spacing: 0.05em; gap: 8px;">
+                                                VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Carousel - Right Side -->
+                                    <div class="carousel-container order-2">
+                                        <div class="carousel relative rounded-2xl overflow-hidden bg-gray-100">
+                                            <div class="carousel-slides flex transition-transform duration-500">
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/语言1.png" alt="语言学习截图1" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/语言2.PNG" alt="语言学习截图2" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/语言3.png" alt="语言学习截图3" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/语言4.png" alt="语言学习截图4" class="w-full h-full object-contain">
+                                                </div>
+                                            </div>
+                                            <!-- Carousel Controls -->
+                                            <div class="carousel-nav absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="0"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="1"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="2"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="3"></button>
+                                            </div>
+                                            <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all">
+                                                <i data-lucide="chevron-left" class="w-5 h-5 text-gray-600"></i>
+                                            </button>
+                                            <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all">
+                                                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-600"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Showcase Card 3: 东京旅行小助手 (简化版 - 无痛点和MVP) -->
+                    <div class="showcase-card bg-white border border-gray-200 rounded-[32px] overflow-hidden shadow-sm mb-6">
+                        <!-- Card Header (Always Visible) -->
+                        <div class="showcase-header p-10 md:p-12 cursor-pointer transition-all">
+                            <div class="flex justify-between items-center">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="text-2xl font-bold tracking-tight hover:text-orange-600 transition-colors m-0">东京旅行小助手</h4>
+                                        <span class="tag-label-single" style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; background: #F2F2F7; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">AI Agents</span>
+                                    </div>
+                                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl font-light">基于 coze 工作流/知识库/数据库等功能，搭建的具备多元交互的旅行智能体</p>
+                                </div>
+                                <div class="showcase-toggle flex-shrink-0 ml-4">
+                                    <span class="showcase-toggle-icon">+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expandable Content (简化版：只有图片+链接) -->
+                        <div class="showcase-content hidden">
+                            <div class="border-t border-gray-200 bg-[#FAFBFD] p-10 md:p-12">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <!-- Left Side: 只有项目链接 -->
+                                    <div class="flex flex-col justify-center order-1">
+                                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                                            一个基于 Coze 平台搭建的智能旅行助手，整合工作流自动化、知识库检索和数据库管理等功能，为东京旅行提供全方位的智能支持。
+                                        </p>
+                                        <!-- View Project Link -->
+                                        <div class="group">
+                                            <a href="https://www.coze.cn/store/agent/7572084569621561386?bot_id=true" target="_blank" class="inline-flex items-center mono font-bold uppercase" style="color: #ff6b35; font-size: 10px; letter-spacing: 0.05em; gap: 8px;">
+                                                VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Carousel - Right Side -->
+                                    <div class="carousel-container order-2">
+                                        <div class="carousel relative rounded-2xl overflow-hidden bg-gray-100">
+                                            <div class="carousel-slides flex transition-transform duration-500">
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/东京.png" alt="东京旅行小助手截图" class="w-full h-full object-contain">
+                                                </div>
+                                            </div>
+                                            <!-- 单张图片不需要导航控件 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Showcase Card 4: 抖音文案一键改写 (简化版 - 无痛点和MVP) -->
+                    <div class="showcase-card bg-white border border-gray-200 rounded-[32px] overflow-hidden shadow-sm mb-6">
+                        <!-- Card Header (Always Visible) -->
+                        <div class="showcase-header p-10 md:p-12 cursor-pointer transition-all">
+                            <div class="flex justify-between items-center">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="text-2xl font-bold tracking-tight hover:text-orange-600 transition-colors m-0">抖音文案一键改写</h4>
+                                        <span class="tag-label-single" style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; background: #F2F2F7; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">AI Agents</span>
+                                    </div>
+                                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl font-light">一键获取抖音视频信息，并进行文案改写智能体</p>
+                                </div>
+                                <div class="showcase-toggle flex-shrink-0 ml-4">
+                                    <span class="showcase-toggle-icon">+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expandable Content (简化版：只有图片+链接) -->
+                        <div class="showcase-content hidden">
+                            <div class="border-t border-gray-200 bg-[#FAFBFD] p-10 md:p-12">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <!-- Left Side: 只有项目链接 -->
+                                    <div class="flex flex-col justify-center order-1">
+                                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                                            基于智能的文案改写助手，快速分析抖音视频内容并生成多种风格的文案变体，提升内容创作效率。
+                                        </p>
+                                        <!-- View Project Link -->
+                                        <div class="group">
+                                            <a href="https://www.coze.cn/store/agent/7577303484366880831?bot_id=true" target="_blank" class="inline-flex items-center mono font-bold uppercase" style="color: #ff6b35; font-size: 10px; letter-spacing: 0.05em; gap: 8px;">
+                                                VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Carousel - Right Side -->
+                                    <div class="carousel-container order-2">
+                                        <div class="carousel relative rounded-2xl overflow-hidden bg-gray-100">
+                                            <div class="carousel-slides flex transition-transform duration-500">
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/抖音.png" alt="抖音文案改写截图" class="w-full h-full object-contain">
+                                                </div>
+                                            </div>
+                                            <!-- 单张图片不需要导航控件 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Showcase Card 5: 我和宠物的毛毡效果合照 (简化版 - 无痛点和MVP) -->
+                    <div class="showcase-card bg-white border border-gray-200 rounded-[32px] overflow-hidden shadow-sm mb-6">
+                        <!-- Card Header (Always Visible) -->
+                        <div class="showcase-header p-10 md:p-12 cursor-pointer transition-all">
+                            <div class="flex justify-between items-center">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="text-2xl font-bold tracking-tight hover:text-orange-600 transition-colors m-0">我和宠物的毛毡效果合照</h4>
+                                        <span class="tag-label-single" style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; background: #F2F2F7; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">AI Agents</span>
+                                    </div>
+                                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl font-light">基于图生图的趣味生图智能体</p>
+                                </div>
+                                <div class="showcase-toggle flex-shrink-0 ml-4">
+                                    <span class="showcase-toggle-icon">+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expandable Content (简化版：只有图片+链接) -->
+                        <div class="showcase-content hidden">
+                            <div class="border-t border-gray-200 bg-[#FAFBFD] p-10 md:p-12">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <!-- Left Side: 只有项目链接 -->
+                                    <div class="flex flex-col justify-center order-1">
+                                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                                            一个趣味性的 AI 图像生成工具，将你和宠物的照片转换为温馨可爱的毛毡效果，创造独特的个性化合影。
+                                        </p>
+                                        <!-- View Project Link -->
+                                        <div class="group">
+                                            <a href="https://www.coze.cn/store/agent/7460034456725012489?bot_id=true" target="_blank" class="inline-flex items-center mono font-bold uppercase" style="color: #ff6b35; font-size: 10px; letter-spacing: 0.05em; gap: 8px;">
+                                                VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Carousel - Right Side -->
+                                    <div class="carousel-container order-2">
+                                        <div class="carousel relative rounded-2xl overflow-hidden bg-gray-100">
+                                            <div class="carousel-slides flex transition-transform duration-500">
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/宠物.png" alt="宠物毛毡效果截图" class="w-full h-full object-contain">
+                                                </div>
+                                            </div>
+                                            <!-- 单张图片不需要导航控件 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Showcase Card 6: 手搓AI漫剧 -->
+                    <div class="showcase-card bg-white border border-gray-200 rounded-[32px] overflow-hidden shadow-sm mb-6">
+                        <!-- Card Header (Always Visible) -->
+                        <div class="showcase-header p-10 md:p-12 cursor-pointer transition-all">
+                            <div class="flex justify-between items-center">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-3 mb-2">
+                                        <h4 class="text-2xl font-bold tracking-tight hover:text-orange-600 transition-colors m-0">手搓AI漫剧</h4>
+                                        <span class="tag-label-single" style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--accent); letter-spacing: 0.08em; background: #F2F2F7; padding: 4px 10px; border-radius: 6px; white-space: nowrap;">AI 视频</span>
+                                    </div>
+                                    <p class="text-sm text-gray-400 leading-relaxed max-w-2xl font-light">利用即梦、Lovart、Loomi、Suno等AI工具生成的AI漫剧</p>
+                                </div>
+                                <div class="showcase-toggle flex-shrink-0 ml-4">
+                                    <span class="showcase-toggle-icon">+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Expandable Content -->
+                        <div class="showcase-content hidden">
+                            <div class="border-t border-gray-200 bg-[#FAFBFD] p-10 md:p-12">
+                                <div class="grid md:grid-cols-2 gap-10">
+                                    <!-- Left Side: 只有项目链接 -->
+                                    <div class="flex flex-col justify-center order-1">
+                                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                                            探索AI创意的边界，整合即梦（图像生成）、Lovart（艺术风格）、Loomi（视频处理）、Suno（音乐生成）等多个前沿AI工具，从零创作出一部完整的AI漫剧作品。
+                                        </p>
+                                        <!-- View Project Link -->
+                                        <div class="group">
+                                            <a href="https://my.feishu.cn/wiki/S1H6wjs5VieVbCkYNrScygpmnue" target="_blank" class="inline-flex items-center mono font-bold uppercase" style="color: #ff6b35; font-size: 10px; letter-spacing: 0.05em; gap: 8px;">
+                                                VIEW PROJECT <i data-lucide="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Image Carousel - Right Side -->
+                                    <div class="carousel-container order-2">
+                                        <div class="carousel relative rounded-2xl overflow-hidden bg-gray-100">
+                                            <div class="carousel-slides flex transition-transform duration-500">
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/视频1.png" alt="AI漫剧截图1" class="w-full h-full object-contain">
+                                                </div>
+                                                <div class="carousel-slide min-w-full h-80 bg-white">
+                                                    <img src="项目images/视频2.png" alt="AI漫剧截图2" class="w-full h-full object-contain">
+                                                </div>
+                                            </div>
+                                            <!-- Carousel Controls -->
+                                            <div class="carousel-nav absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="0"></button>
+                                                <button class="carousel-dot w-2 h-2 rounded-full bg-gray-300 transition-all" data-slide="1"></button>
+                                            </div>
+                                            <button class="carousel-prev absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all">
+                                                <i data-lucide="chevron-left" class="w-5 h-5 text-gray-600"></i>
+                                            </button>
+                                            <button class="carousel-next absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow-lg hover:bg-white transition-all">
+                                                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-600"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div id="contact" class="bg-[#1a1a1a] rounded-[48px] py-24 px-10 text-center text-white shadow-2xl reveal">
+                <h2 class="text-3xl md:text-5xl font-bold mb-8 tracking-tight">
+                    Let's build the future.
+                </h2>
+                <div class="reveal" style="transition-delay: 0.1s;">
+                    <a href="mailto:xzzilndk@foxmail.com" class="text-lg md:text-2xl font-light underline underline-offset-8 decoration-1 hover:text-orange-400 transition-colors mono">
+                        xzzilndk@foxmail.com
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center text-[10px] text-gray-400 mono uppercase tracking-widest reveal" style="transition-delay: 0.2s;">
+                © 2024 Fri.AI — Built with Passion & AI
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 初始化图标
+        lucide.createIcons();
+
+        // 滚动入场检测
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('active');
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Showcase Card 展开/收起功能
+        document.querySelectorAll('.showcase-header').forEach(header => {
+            header.addEventListener('click', function() {
+                const card = this.closest('.showcase-card');
+                const content = card.querySelector('.showcase-content');
+                const toggleIcon = card.querySelector('.showcase-toggle-icon');
+
+                // 切换 active 状态
+                card.classList.toggle('active');
+
+                // 展开/收起内容
+                if (card.classList.contains('active')) {
+                    content.classList.remove('hidden');
+                    // 加号变成减号
+                    toggleIcon.textContent = '−';
+                } else {
+                    content.classList.add('hidden');
+                    // 减号变回加号
+                    toggleIcon.textContent = '+';
+                }
+            });
+        });
+
+        // 轮播功能
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            const slides = carousel.querySelector('.carousel-slides');
+            const dots = carousel.querySelectorAll('.carousel-dot');
+            const prevBtn = carousel.querySelector('.carousel-prev');
+            const nextBtn = carousel.querySelector('.carousel-next');
+            let currentSlide = 0;
+            const totalSlides = dots.length;
+
+            // 如果没有dots或按钮，跳过（单张图片的情况）
+            if (totalSlides === 0 || !prevBtn || !nextBtn) return;
+
+            function updateCarousel() {
+                // 移动 slides
+                slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+                // 更新 dots
+                dots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            // 初始化第一个 dot 为 active
+            if (dots.length > 0) {
+                dots[0].classList.add('active');
+            }
+
+            // 上一张
+            prevBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateCarousel();
+            });
+
+            // 下一张
+            nextBtn.addEventListener('click', () => {
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateCarousel();
+            });
+
+            // 点击 dot 切换
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    currentSlide = index;
+                    updateCarousel();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
